@@ -1,0 +1,32 @@
+usuarios_grupos 
+    USUARIO INT
+    GRUPO INT
+
+grupos
+    ID_GRUPO INT
+    NOME GRUPO VARCHAR(100) **
+    DESCRICAO TEXT
+
+sequidores usuarios 
+    USUARIO INT
+    SEGUIDOR INT
+
+usuarios
+    ID_USUARIO INT
+    NOME_USUARIO VARCHAR (100)|
+    SOBRENOME VARCHAR(100) |
+    EMAIL VARCHAR(20)|
+
+comentarios
+    ID_COMENTARIO INT
+    TEXTO TEXT
+    DATAHORA DATETIME 
+    USUARIO INT
+    POST INT
+
+postagens
+    ID_POST INT
+    TEXTO TEXT
+    IMAGEM BL OB
+    DATA_HORA DATETIME
+    USUARIO INT
