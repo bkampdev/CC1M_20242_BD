@@ -1,172 +1,206 @@
--- Criação das tabelas para o Sistema de Gestão Empresarial Integrado
 CREATE DATABASE TechSolution;
 USE TechSolution;
 
--- Clientes
+-- Tabela Clientes
 CREATE TABLE CLIENTES (
     Codigo INT PRIMARY KEY,
     CNPJ VARCHAR(18) NOT NULL,
     RazaoSocial VARCHAR(255) NOT NULL,
-    RamoAtividade VARCHAR(255),
-    DataCadastramento DATE,
-    PessoaContato VARCHAR(255)
+    DataCadastramento DATETIME,
+    Contato VARCHAR(255),
+    Email VARCHAR(255)
 );
 
--- Empregados
+-- Tabela Empregados
 CREATE TABLE EMPREGADOS (
     Matricula INT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL,
+    NomeCompleto VARCHAR(255) NOT NULL,
     Cargo VARCHAR(255),
-    Salario DECIMAL(10, 2),
+    Salario DECIMAL(12, 2),
     DataAdmissao DATE,
-    Qualificacoes TEXT,
     EnderecoID INT,
+    Telefone VARCHAR(20),
     FOREIGN KEY (EnderecoID) REFERENCES ENDERECOS(Codigo)
 );
 
--- Empresas
+-- Tabela Empresas
 CREATE TABLE EMPRESAS (
     CNPJ VARCHAR(18) PRIMARY KEY,
-    RazaoSocial VARCHAR(255) NOT NULL,
-    PessoaContato VARCHAR(255),
-    EnderecoID INT,
-    FOREIGN KEY (EnderecoID) REFERENCES ENDERECOS(Codigo)
+    RazaoSocial VARCHAR(300) NOT NULL,
+    EnderecoCodigo INT,
+    Telefone VARCHAR(20),
+    FOREIGN KEY (EnderecoCodigo) REFERENCES ENDERECOS(Codigo)
 );
 
--- Fornecedores
+-- Tabela Fornecedores
 CREATE TABLE FORNECEDORES (
     CNPJ VARCHAR(18) PRIMARY KEY,
-    RazaoSocial VARCHAR(255) NOT NULL,
-    PessoaContato VARCHAR(255),
-    EnderecoID INT,
-    FOREIGN KEY (EnderecoID) REFERENCES ENDERECOS(Codigo)
+    RazaoSocial VARCHAR(300) NOT NULL,
+    EnderecoCodigo INT,
+    Email VARCHAR(255),
+    FOREIGN KEY (EnderecoCodigo) REFERENCES ENDERECOS(Codigo)
 );
 
--- Tipo de endereço
-CREATE TABLE TIPO_DE_ENDERECO (
-    Codigo INT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL
-);
-
--- Endereços
+-- Tabela Endereços
 CREATE TABLE ENDERECOS (
     Codigo INT PRIMARY KEY,
-    Numero VARCHAR(10),
     Logradouro VARCHAR(255),
-    Complemento VARCHAR(255),
-    CEP VARCHAR(10),
-    Bairro VARCHAR(255),
     Cidade VARCHAR(255),
     Estado VARCHAR(2),
-    TipoEnderecoID INT,
-    FOREIGN KEY (TipoEnderecoID) REFERENCES TIPO_DE_ENDERECO(Codigo)
+    CEP VARCHAR(9),
+    Bairro VARCHAR(255)
 );
 
--- Encomendas
-CREATE TABLE ENCOMENDAS (
-    Numero INT PRIMARY KEY,
-    DataInclusao DATE,
-    ValorTotal DECIMAL(10, 2),
-    ValorDesconto DECIMAL(10, 2),
-    ValorLiquido DECIMAL(10, 2),
-    FormaPagamentoID INT,
-    QuantidadeParcelas INT,
-    ClienteID INT,
-    FOREIGN KEY (ClienteID) REFERENCES CLIENTES(Codigo)
-);
-
--- Produtos
+-- Tabela Produtos
 CREATE TABLE PRODUTOS (
     Codigo INT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL,
-    Cor VARCHAR(50),
-    Dimensoes VARCHAR(50),
-    Peso DECIMAL(10, 2),
-    Preco DECIMAL(10, 2),
-    TempoFabricacao INT,
-    DesenhoProduto TEXT,
-    HorasMaoDeObra INT
+    NomeProduto VARCHAR(255) NOT NULL,
+    Preco DECIMAL(12, 2),
+    DataFabricacao DATE
 );
 
--- Tipos de componente
-CREATE TABLE TIPOS_DE_COMPONENTE (
-    Codigo INT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL
-);
-
--- Componentes
+-- Tabela Componentes
 CREATE TABLE COMPONENTES (
     Codigo INT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL,
-    QuantidadeEstoque INT,
-    PrecoUnitario DECIMAL(10, 2),
+    NomeComponente VARCHAR(255) NOT NULL,
+    QuantidadeNecessaria DECIMAL(10, 2),
     Unidade VARCHAR(50),
-    TipoComponenteID INT,
-    FOREIGN KEY (TipoComponenteID) REFERENCES TIPOS_DE_COMPONENTE(Codigo)
-);
-
--- Maquinas
-CREATE TABLE MAQUINAS (
-    Codigo INT PRIMARY KEY,
-    TempoVida INT,
-    DataCompra DATE,
-    DataFimGarantia DATE
-);
-
--- Recursos específicos
-CREATE TABLE RECURSOS_ESPECIFICOS (
-    Codigo INT PRIMARY KEY,
-    QuantidadeNecessaria INT,
-    Unidade VARCHAR(50),
-    TempoUso INT,
     HorasMaoDeObra INT,
     ProdutoID INT,
-    FOREIGN KEY (ProdutoID) REFERENCES PRODUTOS(Codigo)
+    FOREIGN KEY (ProdutoID) REFERENCES PRODUTOS(Codigo),
+    DataCriacao DATE
 );
 
--- Registro de manutenção
+-- Tabela Registro de Manutenção
 CREATE TABLE REGISTRO_MANUTENCAO (
     Codigo INT PRIMARY KEY,
-    Data DATE,
-    Descricao TEXT,
-    MaquinaID INT,
-    FOREIGN KEY (MaquinaID) REFERENCES MAQUINAS(Codigo)
+    Data DATETIME,
+    EquipamentoID INT,
+    FOREIGN KEY (EquipamentoID) REFERENCES MAQUINAS(Codigo),
+    Custo DECIMAL(10, 2)
 );
 
--- Registro de suprimentos
+-- Tabela Registro de Suprimentos
 CREATE TABLE REGISTRO_SUPRIMENTOS (
     Codigo INT PRIMARY KEY,
-    Quantidade INT,
-    DataNecessidade DATE,
-    ComponenteID INT,
-    FOREIGN KEY (ComponenteID) REFERENCES COMPONENTES(Codigo)
+    Quantidade DECIMAL(10, 2),
+    ItemID INT,
+    FOREIGN KEY (ItemID) REFERENCES COMPONENTES(Codigo),
+    DataEntrega DATE
 );
 
--- Relacionamento telefones (multivalorado)
+-- Tabela Telefones Clientes
 CREATE TABLE TELEFONES_CLIENTES (
-    ClienteID INT,
-    Telefone VARCHAR(15),
-    PRIMARY KEY (ClienteID, Telefone),
-    FOREIGN KEY (ClienteID) REFERENCES CLIENTES(Codigo)
+    IDCliente INT,
+    TipoTelefone VARCHAR(20),
+    PRIMARY KEY (IDCliente, TipoTelefone),
+    FOREIGN KEY (IDCliente) REFERENCES CLIENTES(Codigo)
 );
 
+-- Tabela Telefones Empregados
 CREATE TABLE TELEFONES_EMPREGADOS (
-    EmpregadoID INT,
-    Telefone VARCHAR(15),
-    PRIMARY KEY (EmpregadoID, Telefone),
-    FOREIGN KEY (EmpregadoID) REFERENCES EMPREGADOS(Matricula)
+    IDEmpregado INT,
+    TipoTelefone VARCHAR(20),
+    PRIMARY KEY (IDEmpregado, TipoTelefone),
+    FOREIGN KEY (IDEmpregado) REFERENCES EMPREGADOS(Matricula)
 );
 
+-- Tabela Telefones Empresas
 CREATE TABLE TELEFONES_EMPRESAS (
-    EmpresaID VARCHAR(18),
-    Telefone VARCHAR(15),
-    PRIMARY KEY (EmpresaID, Telefone),
-    FOREIGN KEY (EmpresaID) REFERENCES EMPRESAS(CNPJ)
+    IDEmpresa VARCHAR(18),
+    TipoTelefone VARCHAR(20),
+    PRIMARY KEY (IDEmpresa, TipoTelefone),
+    FOREIGN KEY (IDEmpresa) REFERENCES EMPRESAS(CNPJ)
 );
 
-CREATE TABLE TELEFONES_FORNECEDORES (
-    FornecedorID VARCHAR(18),
-    Telefone VARCHAR(15),
-    PRIMARY KEY (FornecedorID, Telefone),
-    FOREIGN KEY (FornecedorID) REFERENCES FORNECEDORES(CNPJ)
-);
+-- Comandos ALTER
+
+-- Clientes
+ALTER TABLE CLIENTES ADD Email VARCHAR(255);
+ALTER TABLE CLIENTES DROP COLUMN RamoAtividade;
+ALTER TABLE CLIENTES MODIFY COLUMN DataCadastramento DATETIME;
+ALTER TABLE CLIENTES CHANGE COLUMN PessoaContato Contato VARCHAR(255);
+
+-- Empregados
+ALTER TABLE EMPREGADOS ADD Telefone VARCHAR(20);
+ALTER TABLE EMPREGADOS DROP COLUMN Qualificacoes;
+ALTER TABLE EMPREGADOS MODIFY COLUMN Salario DECIMAL(12, 2);
+ALTER TABLE EMPREGADOS CHANGE COLUMN Nome NomeCompleto VARCHAR(255);
+
+-- Empresas
+ALTER TABLE EMPRESAS ADD Telefone VARCHAR(20);
+ALTER TABLE EMPRESAS DROP COLUMN PessoaContato;
+ALTER TABLE EMPRESAS MODIFY COLUMN RazaoSocial VARCHAR(300);
+ALTER TABLE EMPRESAS CHANGE COLUMN EnderecoID EnderecoCodigo INT;
+
+-- Fornecedores
+ALTER TABLE FORNECEDORES ADD Email VARCHAR(255);
+ALTER TABLE FORNECEDORES DROP COLUMN PessoaContato;
+ALTER TABLE FORNECEDORES MODIFY COLUMN RazaoSocial VARCHAR(300);
+ALTER TABLE FORNECEDORES CHANGE COLUMN EnderecoID EnderecoCodigo INT;
+
+-- Endereços
+ALTER TABLE ENDERECOS ADD Bairro VARCHAR(255);
+ALTER TABLE ENDERECOS DROP COLUMN Numero;
+ALTER TABLE ENDERECOS MODIFY COLUMN CEP VARCHAR(9);
+ALTER TABLE ENDERECOS CHANGE COLUMN Rua Logradouro VARCHAR(255);
+
+-- Produtos
+ALTER TABLE PRODUTOS ADD DataFabricacao DATE;
+ALTER TABLE PRODUTOS DROP COLUMN Descricao;
+ALTER TABLE PRODUTOS MODIFY COLUMN Preco DECIMAL(12, 2);
+ALTER TABLE PRODUTOS CHANGE COLUMN Nome NomeProduto VARCHAR(255);
+
+-- Componentes
+ALTER TABLE COMPONENTES ADD DataCriacao DATE;
+ALTER TABLE COMPONENTES DROP COLUMN TempoUso;
+ALTER TABLE COMPONENTES MODIFY COLUMN QuantidadeNecessaria DECIMAL(10, 2);
+ALTER TABLE COMPONENTES CHANGE COLUMN Nome NomeComponente VARCHAR(255);
+
+-- Registro de Manutenção
+ALTER TABLE REGISTRO_MANUTENCAO ADD Custo DECIMAL(10, 2);
+ALTER TABLE REGISTRO_MANUTENCAO DROP COLUMN Descricao;
+ALTER TABLE REGISTRO_MANUTENCAO MODIFY COLUMN Data DATETIME;
+ALTER TABLE REGISTRO_MANUTENCAO CHANGE COLUMN MaquinaID EquipamentoID INT;
+
+-- Registro de Suprimentos
+ALTER TABLE REGISTRO_SUPRIMENTOS ADD DataEntrega DATE;
+ALTER TABLE REGISTRO_SUPRIMENTOS DROP COLUMN DataNecessidade;
+ALTER TABLE REGISTRO_SUPRIMENTOS MODIFY COLUMN Quantidade DECIMAL(10, 2);
+ALTER TABLE REGISTRO_SUPRIMENTOS CHANGE COLUMN ComponenteID ItemID INT;
+
+-- Telefones Clientes
+ALTER TABLE TELEFONES_CLIENTES ADD TipoTelefone VARCHAR(20);
+ALTER TABLE TELEFONES_CLIENTES DROP COLUMN Telefone;
+ALTER TABLE TELEFONES_CLIENTES MODIFY COLUMN ClienteID INT NOT NULL;
+ALTER TABLE TELEFONES_CLIENTES CHANGE COLUMN ClienteID IDCliente INT;
+
+-- Telefones Empregados
+ALTER TABLE TELEFONES_EMPREGADOS ADD TipoTelefone VARCHAR(20);
+ALTER TABLE TELEFONES_EMPREGADOS DROP COLUMN Telefone;
+ALTER TABLE TELEFONES_EMPREGADOS MODIFY COLUMN EmpregadoID INT NOT NULL;
+ALTER TABLE TELEFONES_EMPREGADOS CHANGE COLUMN EmpregadoID IDEmpregado INT;
+
+-- Telefones Empresas
+ALTER TABLE TELEFONES_EMPRESAS ADD TipoTelefone VARCHAR(20);
+ALTER TABLE TELEFONES_EMPRESAS DROP COLUMN Telefone;
+ALTER TABLE TELEFONES_EMPRESAS MODIFY COLUMN EmpresaID VARCHAR(18) NOT NULL;
+ALTER TABLE TELEFONES_EMPRESAS CHANGE COLUMN EmpresaID IDEmpresa VARCHAR(18);
+
+-- Comandos DROP TABLE
+
+USE TechSolution;
+
+-- Remover todas as tabelas
+DROP TABLE IF EXISTS CLIENTES;
+DROP TABLE IF EXISTS EMPREGADOS;
+DROP TABLE IF EXISTS EMPRESAS;
+DROP TABLE IF EXISTS FORNECEDORES;
+DROP TABLE IF EXISTS ENDERECOS;
+DROP TABLE IF EXISTS PRODUTOS;
+DROP TABLE IF EXISTS COMPONENTES;
+DROP TABLE IF EXISTS REGISTRO_MANUTENCAO;
+DROP TABLE IF EXISTS REGISTRO_SUPRIMENTOS;
+DROP TABLE IF EXISTS TELEFONES_CLIENTES;
+DROP TABLE IF EXISTS TELEFONES_EMPREGADOS;
+DROP TABLE IF EXISTS TELEFONES_EMPRESAS;

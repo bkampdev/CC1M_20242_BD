@@ -1,4 +1,3 @@
-
 CREATE DATABASE CadeiaDeSuprimentos;
 USE CadeiaDeSuprimentos;
 
@@ -43,37 +42,8 @@ CREATE TABLE PedidosCompra (
     FOREIGN KEY (fornecedor_id) REFERENCES Fornecedores(fornecedor_id)
 );
 
--- Compra
-CREATE TABLE ItensPedidoCompra (
-    item_pedido_id INT AUTO_INCREMENT PRIMARY KEY,
-    pedido_id INT,
-    produto_id INT,
-    quantidade_solicitada INT,
-    FOREIGN KEY (pedido_id) REFERENCES PedidosCompra(pedido_id),
-    FOREIGN KEY (produto_id) REFERENCES Produtos(produto_id)
-);
-
--- Recebimento de Materiais
-CREATE TABLE RecebimentoMateriais (
-    recebimento_id INT AUTO_INCREMENT PRIMARY KEY,
-    pedido_id INT,
-    data_recebimento DATE,
-    quantidade_recebida INT,
-    condicao_materiais VARCHAR(50),
-    motivo_rejeicao TEXT,
-    FOREIGN KEY (pedido_id) REFERENCES PedidosCompra(pedido_id)
-);
-
--- Filiais
-CREATE TABLE Filiais (
-    filial_id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    endereco VARCHAR(255),
-    capacidade_armazenamento INT
-);
-
--- Transferencias de Produtos
-CREATE TABLE TransferenciasProdutos (
+-- Transferencias
+CREATE TABLE Transferencias (
     transferencia_id INT AUTO_INCREMENT PRIMARY KEY,
     produto_id INT,
     filial_id INT,
@@ -82,3 +52,34 @@ CREATE TABLE TransferenciasProdutos (
     FOREIGN KEY (produto_id) REFERENCES Produtos(produto_id),
     FOREIGN KEY (filial_id) REFERENCES Filiais(filial_id)
 );
+
+-- Fornecedores
+ALTER TABLE Fornecedores ADD email VARCHAR(255);
+ALTER TABLE Fornecedores DROP COLUMN historico_fornecimento;
+ALTER TABLE Fornecedores MODIFY COLUMN telefone VARCHAR(20);
+ALTER TABLE Fornecedores CHANGE COLUMN pessoa_contato contato VARCHAR(255);
+
+-- Produtos
+ALTER TABLE Produtos ADD data_validade DATE;
+ALTER TABLE Produtos DROP COLUMN especificacoes_tecnicas;
+ALTER TABLE Produtos MODIFY COLUMN preco_unitario DECIMAL(12, 2);
+ALTER TABLE Produtos CHANGE COLUMN descricao descricao_produto TEXT;
+
+-- Estoque
+ALTER TABLE Estoque ADD data_entrada DATE;
+ALTER TABLE Estoque DROP COLUMN ponto_ressuprimento;
+ALTER TABLE Estoque MODIFY COLUMN quantidade_atual DECIMAL(10, 2);
+ALTER TABLE Estoque CHANGE COLUMN localizacao_armazem localizacao VARCHAR(255);
+
+-- Pedidos de Compra
+ALTER TABLE PedidosCompra ADD valor_total DECIMAL(10, 2);
+ALTER TABLE PedidosCompra DROP COLUMN data_entrega_esperada;
+ALTER TABLE PedidosCompra MODIFY COLUMN status_pedido VARCHAR(100);
+ALTER TABLE PedidosCompra CHANGE COLUMN data_pedido data_criacao DATE;
+
+-- Remover todas as tabelas
+DROP TABLE IF EXISTS Fornecedores;
+DROP TABLE IF EXISTS Produtos;
+DROP TABLE IF EXISTS Estoque;
+DROP TABLE IF EXISTS PedidosCompra;
+DROP TABLE IF EXISTS Transferencias;
