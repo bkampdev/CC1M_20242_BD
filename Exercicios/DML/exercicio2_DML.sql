@@ -1,4 +1,3 @@
-
 INSERT INTO USUARIOS (ID_USUARIO, NOME_USUARIO, SOBRENOME, EMAIL) VALUES
 (1, 'Alice', 'Silva', 'alice@mail.com'),
 (2, 'Bob', 'Oliveira', 'bob@mail.com'),

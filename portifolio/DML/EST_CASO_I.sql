@@ -27,11 +27,11 @@ UPDATE Produtos SET descricao_produto = 'Nova Descrição A' WHERE produto_id = 
 DELETE FROM Produtos WHERE produto_id = 5;
 
 -- Inserindo registros na tabela Estoque
-INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (1, 100, 'Armazém A', '2023-01-01');
-INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (2, 200, 'Armazém B', '2023-02-01');
-INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (3, 150, 'Armazém C', '2023-03-01');
-INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (4, 300, 'Armazém D', '2023-04-01');
-INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (5, 250, 'Armazém E', '2023-05-01');
+INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (1, 100, 'Armazém A', '2024-01-01');
+INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (2, 200, 'Armazém B', '2024-02-01');
+INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (3, 150, 'Armazém C', '2024-03-01');
+INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (4, 300, 'Armazém D', '2024-04-01');
+INSERT INTO Estoque (produto_id, quantidade_atual, localizacao, data_entrada) VALUES (5, 250, 'Armazém E', '2024-05-01');
 
 -- Atualizando registros na tabela Estoque
 UPDATE Estoque SET quantidade_atual = 120 WHERE estoque_id = 1;
@@ -41,11 +41,11 @@ UPDATE Estoque SET localizacao = 'Novo Armazém A' WHERE estoque_id = 1;
 DELETE FROM Estoque WHERE estoque_id = 5;
 
 -- Inserindo registros na tabela PedidosCompra
-INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (1, '2023-01-01', 'em processamento', 1000.00);
-INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (2, '2023-02-01', 'enviado', 2000.00);
-INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (3, '2023-03-01', 'recebido', 1500.00);
-INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (4, '2023-04-01', 'cancelado', 3000.00);
-INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (5, '2023-05-01', 'em processamento', 2500.00);
+INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (1, '2024-01-01', 'em processamento', 1000.00);
+INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (2, '2024-02-01', 'enviado', 2000.00);
+INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (3, '2024-03-01', 'recebido', 1500.00);
+INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (4, '2024-04-01', 'cancelado', 3000.00);
+INSERT INTO PedidosCompra (fornecedor_id, data_criacao, status_pedido, valor_total) VALUES (5, '2024-05-01', 'em processamento', 2500.00);
 
 -- Atualizando registros na tabela PedidosCompra
 UPDATE PedidosCompra SET status_pedido = 'recebido' WHERE pedido_id = 1;
