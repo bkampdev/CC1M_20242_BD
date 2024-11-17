@@ -20,11 +20,11 @@ INSERT INTO Produtos (NomeProduto, Preco, Estoque, FornecedorID, DataValidade) V
 INSERT INTO Produtos (NomeProduto, Preco, Estoque, FornecedorID, DataValidade) VALUES ('Produto E', 50.00, 250, 5, '2024-05-01');
 
 -- Inserindo registros na tabela Vendas
-INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (1, '2023-01-01 10:00:00', 5.00);
-INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (2, '2023-02-01 11:00:00', 10.00);
-INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (3, '2023-03-01 12:00:00', 15.00);
-INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (4, '2023-04-01 13:00:00', 20.00);
-INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (5, '2023-05-01 14:00:00', 25.00);
+INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (1, '2024-01-01 10:00:00', 5.00);
+INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (2, '2024-02-01 11:00:00', 10.00);
+INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (3, '2024-03-01 12:00:00', 15.00);
+INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (4, '2024-04-01 13:00:00', 20.00);
+INSERT INTO Vendas (ClienteID, DataVendaCompleta, Desconto) VALUES (5, '2024-05-01 14:00:00', 25.00);
 
 -- Inserindo registros na tabela Pagamentos
 INSERT INTO Pagamentos (VendaID, Valor, MetodoPagamento) VALUES (1, 95.00, 'Cartão de Crédito');
@@ -54,7 +54,7 @@ UPDATE Produtos SET NomeProduto = 'Novo Produto A' WHERE ProdutoID = 1;
 
 -- Atualizando registros na tabela Vendas
 UPDATE Vendas SET Desconto = 7.50 WHERE VendaID = 1;
-UPDATE Vendas SET DataVendaCompleta = '2023-01-01 11:00:00' WHERE VendaID = 1;
+UPDATE Vendas SET DataVendaCompleta = '2024-01-01 11:00:00' WHERE VendaID = 1;
 
 -- Atualizando registros na tabela Pagamentos
 UPDATE Pagamentos SET Valor = 100.00 WHERE PagamentoID = 1;
